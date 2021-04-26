@@ -1,0 +1,12 @@
+###################################
+# Airflow - Common Configs
+###################################
+airflow:
+  extraVolumeMounts: # this will get the volume and mount it to that path in the container
+    - name: dags
+      mountPath: /opt/airflow/dags  # location in the container it will put the directory mentioned below.
+
+  extraVolumes: # this will create the volume from the directory
+    - name: dags
+      hostPath:
+        path: "/datashare/dags/"  # For you this is something like /<absolute-path>/dags
