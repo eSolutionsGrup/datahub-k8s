@@ -1,12 +1,12 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: minio-app
+  name: "minio-spark-app-{{ ds }}-{{ task_instance.try_number }}"
   namespace: spark-apps
 spec:
   type: Scala
   mode: cluster
-  sparkVersion: "3.0.0"
+  sparkVersion: "2.4.5"
   image: "localhost:5000/spark-k8s/sparkapp:1.0-SNAPSHOT"
   imagePullPolicy: Always
   mainClass: ro.esolutions.sparkapp.MinioApp
@@ -23,7 +23,7 @@ spec:
     coreLimit: "1200m"
     memory: "512m"
     labels:
-      version: 3.0.0
+      version: 2.4.5
     serviceAccount: spark
     volumeMounts:
       - name: "test-volume"
@@ -33,7 +33,7 @@ spec:
     instances: 1
     memory: "512m"
     labels:
-      version: 3.0.0
+      version: 2.4.5
     volumeMounts:
       - name: "test-volume"
         mountPath: "/tmp"

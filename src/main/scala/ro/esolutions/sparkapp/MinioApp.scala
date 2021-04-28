@@ -8,8 +8,8 @@ object MinioApp {
 
     val jobName = this.getClass.getCanonicalName
     val conf = new SparkConf().setAppName(jobName)
-//      .set("spark.hadoop.fs.s3a.endpoint", "http://minio.minio-tenant.svc.cluster.local")
-      .set("spark.hadoop.fs.s3a.endpoint", "http://localhost:9000")
+      .set("spark.hadoop.fs.s3a.endpoint", "http://minio.minio-tenant.svc.cluster.local")
+//      .set("spark.hadoop.fs.s3a.endpoint", "http://localhost:9000")
       .set("spark.hadoop.fs.s3a.access.key", "minio")
       .set("spark.hadoop.fs.s3a.secret.key", "minio123")
       .set("spark.hadoop.fs.s3a.path.style.access", "true")
