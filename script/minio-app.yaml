@@ -1,0 +1,39 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: minio-app
+  namespace: spark-apps
+spec:
+  type: Scala
+  mode: cluster
+  sparkVersion: "3.0.0"
+  image: "localhost:5000/spark-k8s/sparkapp:1.0-SNAPSHOT"
+  imagePullPolicy: Always
+  mainClass: ro.esolutions.sparkapp.MinioApp
+  mainApplicationFile: local:///sparkapp.jar
+  restartPolicy:
+    type: Never
+  volumes:
+    - name: "test-volume"
+      hostPath:
+        path: "/tmp"
+        type: Directory
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.0.0
+    serviceAccount: spark
+    volumeMounts:
+      - name: "test-volume"
+        mountPath: "/tmp"
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: 3.0.0
+    volumeMounts:
+      - name: "test-volume"
+        mountPath: "/tmp"

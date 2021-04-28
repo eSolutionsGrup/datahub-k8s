@@ -8,9 +8,10 @@ object MinioApp {
 
     val jobName = this.getClass.getCanonicalName
     val conf = new SparkConf().setAppName(jobName)
+//      .set("spark.hadoop.fs.s3a.endpoint", "http://minio.minio-tenant.svc.cluster.local")
       .set("spark.hadoop.fs.s3a.endpoint", "http://localhost:9000")
-      .set("spark.hadoop.fs.s3a.access.key", "minioadmin")
-      .set("spark.hadoop.fs.s3a.secret.key", "minioadmin")
+      .set("spark.hadoop.fs.s3a.access.key", "minio")
+      .set("spark.hadoop.fs.s3a.secret.key", "minio123")
       .set("spark.hadoop.fs.s3a.path.style.access", "true")
       .set("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
     val spark = SparkSession.builder().config(conf).getOrCreate()
@@ -20,7 +21,7 @@ object MinioApp {
 
     println(df.show(10))
 
-    df.printSchema()
+    df.write.mode(SaveMode.Overwrite).json("s3a://spark/output/")
 
   }
 }
