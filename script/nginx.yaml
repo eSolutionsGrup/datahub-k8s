@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx  
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      volumes:
+      - name: "datashare-default"
+        persistentVolumeClaim:
+          claimName: datashare-default   
+      containers:
+      - name: my-nginx
+        image: localhost:5000/nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: "datashare-default"
+          mountPath: "/datashare"           
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: datashare-default
+  namespace: default
+  labels:
+    app: datashare-default
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi  
+  accessModes:
+    - ReadWriteMany
+  # claimRef: # the claimRef is here to provide a "connection" between this pv and the pvc.
+  #   apiVersion: v1
+  #   kind: PersistentVolumeClaim
+  #   name: datashare 
+  #   namespace: default
+  hostPath:
+    path: /datashare/
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: datashare-default
+  namespace: default
+  labels:
+    app: datashare-default
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      # The amount of the volume's storage to request
+      storage: 1Gi            

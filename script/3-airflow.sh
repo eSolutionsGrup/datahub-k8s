@@ -19,3 +19,7 @@ helm install \
   --namespace $NAMESPACE \
   --version $CHART_VERSION \
   -f $VALUES_FILE
+
+kubectl create clusterrolebinding airflow-spark-role \
+  --clusterrole=cluster-admin \
+  --serviceaccount=airflow:airflow

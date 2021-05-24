@@ -18,6 +18,11 @@ object OrdersApp extends App {
   val spark = SparkSession.builder().config(conf).getOrCreate()
   spark.sparkContext.setLogLevel("ERROR")
 
+
+  while(true) {
+    
+  }
+
   val df = spark.read.csv("/datashare/datasets/orders.csv")
   df.write
     .mode(SaveMode.Overwrite)
@@ -26,5 +31,7 @@ object OrdersApp extends App {
   df.show(10)
 
   println(s"saved ${df.count()} rows")
+
+
 
 }
