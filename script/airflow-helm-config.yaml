@@ -11,7 +11,7 @@ airflow:
   extraVolumes: # this will create the volume from the directory
     - name: dags
       hostPath:
-        path: "/datashare/airflow/dags/"  # For you this is something like /<absolute-path>/dags
+        path: "/home/lucian/workspace/bigdata/datahub-k8s/datashare/airflow/dags/"  # For you this is something like /<absolute-path>/dags
     - name: plugins
       hostPath:
-        path: "/datashare/airflow/plugins/"  # For you this is something like /<absolute-path>/dags    
+        path: "/home/lucian/workspace/bigdata/datahub-k8s/datashare/airflow/plugins/"  # For you this is something like /<absolute-path>/dags    

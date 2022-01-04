@@ -23,6 +23,11 @@ nodes:
     extraMounts:
       - hostPath: ${share_path}
         containerPath: /datashare
+  - role: worker
+  - role: worker
+  - role: worker
+  - role: worker
+  - role: worker
 containerdConfigPatches:
 - |-
   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]

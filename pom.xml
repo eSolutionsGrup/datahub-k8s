@@ -11,14 +11,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spark.version>2.4.5</spark.version>
+        <spark.version>3.1.1</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.10</scala.version>
         <scala-maven-plugin.version>4.4.0</scala-maven-plugin.version>
-        <hadoop.version>3.1.0</hadoop.version>
+        <hadoop.version>3.0.0</hadoop.version>
         <jackson.version>2.8.7</jackson.version>
         <docker.repository.url>localhost:5000</docker.repository.url>
-        <docker.maven.plugin>1.4.2</docker.maven.plugin>
+        <docker.maven.plugispark.sql.catalog.spark_catalogn>1.4.2</docker.maven.plugispark.sql.catalog.spark_catalogn>
         <docker.client.shaded>8.11.5</docker.client.shaded>
         <docker.namespace>spark-k8s</docker.namespace>
     </properties>

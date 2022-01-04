@@ -5,3 +5,10 @@
 target/.travis/public-signing-key.gpg
 target/
 spark-warehouse
+.metals
+.vscode
+.settings
+.project
+.classpath
+datashare/**
+**.log

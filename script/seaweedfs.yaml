@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weedmaster-deployment
+  namespace: seaweedfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: weedmaster-service
+  template: 
+    metadata:
+      labels:
+        name: weedmaster-service
+    spec:
+      containers:
+      - name: weedmaster
+        image: chrislusf/seaweedfs:2.77
+        ports:
+        - name: http
+          containerPort: 9333
+        - name: grpc
+          containerPort: 19333  
+        args:
+        - "master"
+        - "-ip=weedmaster-service.seaweedfs.svc.cluster.local"
+        volumeMounts:
+        - name: master-data
+          mountPath: /data
+      volumes:
+      - name: master-data
+        hostPath:
+          path: /datashare/seaweed/master-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weedvolume-deployment
+  namespace: seaweedfs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: weedvolume-service
+  template:
+    metadata:
+      labels:
+        name: weedvolume-service
+    spec:
+      containers:
+      - name: weedvol
+        image: chrislusf/seaweedfs:2.77
+        args:
+        - "volume"
+        - "-mserver=weedmaster-service.seaweedfs.svc.cluster.local:9333"
+        - "-ip=weedvolume-service.seaweedfs.svc.cluster.local"
+        - "-port=9300"
+#        - "-dir=/data"
+        ports:
+        - name: http
+          containerPort: 9300
+        - name: grpc
+          containerPort: 19300
+#        volumeMounts:
+#        - name: volume-data-pvc
+#          mountPath: /data
+#      volumes:
+#      - name: volume-data-pvc
+#        hostPath:
+#          path: /datashare/seaweed/volume-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weedvolume-service
+  namespace: seaweedfs
+spec:
+  selector:
+    name: weedvolume-service
+  ports:
+  - name: http
+    port: 9300
+  - name: grpc
+    port: 19300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weedmaster-service
+  namespace: seaweedfs
+spec:
+  selector:
+    name: weedmaster-service
+  ports:
+  - name: http
+    port: 9333
+  - name: grpc
+    port: 19333
