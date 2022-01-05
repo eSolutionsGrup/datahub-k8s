@@ -15,7 +15,7 @@
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.10</scala.version>
         <scala-maven-plugin.version>4.4.0</scala-maven-plugin.version>
-        <hadoop.version>3.0.0</hadoop.version>
+        <hadoop.version>3.3.1</hadoop.version>
         <jackson.version>2.8.7</jackson.version>
         <docker.repository.url>localhost:5000</docker.repository.url>
         <docker.maven.plugispark.sql.catalog.spark_catalogn>1.4.2</docker.maven.plugispark.sql.catalog.spark_catalogn>
@@ -56,6 +56,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.delta</groupId>
+            <artifactId>delta-core_${scala.binary.version}</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-aws</artifactId>
             <version>${hadoop.version}</version>
@@ -84,6 +89,11 @@
                     <groupId>com.google.guava</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
