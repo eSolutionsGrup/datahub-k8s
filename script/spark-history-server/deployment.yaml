@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-history-server
+  labels:
+    app: spark-history-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: spark-history-server
+  template:
+    metadata:
+      labels:
+        app: spark-history-server
+    spec:
+      containers:
+        - name: spark-history-server
+          image: spark-history-server:1.0
+          ports:
+            - containerPort: 18080
+          env:
+            - name: SPARK_DAEMON_JAVA_OPTS
+              value: "-Dcom.amazonaws.sdk.disableCertChecking=true"
+            - name: SPARK_HISTORY_OPTS
+              value: |
+                -Dspark.hadoop.fs.s3a.endpoint=http://minio.kbdp.svc.cluster.local
+                -Dspark.hadoop.fs.s3a.access.key=access_key
+                -Dspark.hadoop.fs.s3a.secret.key=secret_key
+                -Dspark.history.fs.logDirectory=s3a://spark/events
+                -Dspark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider
+                -Dpark.hadoop.fs.defaultFS=s3a://spark/events
+                -Dspark.hadoop.fs.s3a.path.style.access=true
+                -Dspark.hadoop.fs.s3a.fast.upload=true
